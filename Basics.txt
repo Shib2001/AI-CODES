@@ -1,0 +1,41 @@
+GPT = stands for generative pre-trained transformer 
+
+what is chatbot a agentic ai chatbot which is pre-trained by open ai 
+
+chatgpt is transformer which nature is generative and is pre-trained to have conversation with humans 
+
+
+also gemini is gpt , claude is gpt ( they all are pre-trained transfomers by their respective company such as google and anthropic but are generative in nature  )
+
+
+
+# Now a gpt transformer model is very much basically same as the google translate 
+
+in google translate :
+
+
+input sequence > "TRANSFORMER" > Output sequence
+
+
+but in gpt : 
+
+input tokens > "TRANSFORMER" > predict the next token 
+
+example : 
+
+Hey there > "TRANSFORMER" > I 
+
+then the loop will run again 
+
+Hey there I > "TRANSFORMER" > am
+
+then the loop will run again 
+
+Hey there I am > "TRANSFORMER" > good
+
+then again 
+
+Hey there I am good > "TRANSFORMER" > <END> 
+
+
+So you gave input token Hey there and on the basis of the prediction of what the next token could be we got Iam good 

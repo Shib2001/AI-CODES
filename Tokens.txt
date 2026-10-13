@@ -1,0 +1,46 @@
+1. What are Tokens in GenAI?
+Definition: Tokens are the small units of text (words, parts of words, characters, or symbols) that a Generative AI model processes as input and generates as output.
+Example:
+Sentence: I love learning GenAI.
+A tokenizer might split it into these tokens:
+I
+love
+learning
+Gen
+AI
+.
+
+Illustrative tokenization only. The actual tokens depend on the tokenizer used by the model.
+
+Remember: one token does not always equal one word. A word can be one token or multiple tokens.
+2. What is Tokenization in GenAI?
+Definition: Tokenization is the process of converting input text into smaller units called tokens so that a language model can process the text.
+For example, when you send a message to an AI chatbot, the process looks like this:
+Input text
+"I love GenAI"
+
+Tokenization
+Splits text into tokens
+
+Token IDs
+Each token maps to a numerical ID
+
+AI model
+Processes the numerical representation
+
+
+The model uses these numerical representations to predict and generate the next tokens, which are then converted back into readable text.
+3. Why are tokens important?
+- Model input: They allow text to be represented in a form the model can process.
+- Context window: Models have limits on how many tokens they can process in a given context.
+- API costs: Many AI APIs charge based on input and output token usage.
+- Response generation: The model generates text token by token.
+4. Difference between Tokens and Tokenization
+Tokens	Tokenization
+The units produced by splitting text.	The process of splitting text into units.
+They are the result.	It is the process.
+Example: learning, Gen, AI.	Example: splitting "learning GenAI" into tokens.
+
+
+# and for a simple senetence like "Good morning shiv" iske tokens numbers patterns alag hote h for every llm model available in the market 
+such as Gpt3.5 , gemini , anthropic
