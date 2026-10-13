@@ -1,0 +1,17 @@
+# Now for positional encoding 
+it basically decides the positions of tokens 
+
+
+for example suppose we have a sentences 
+
+1.Dog ate cat 
+2. cat ate Dog 
+
+for both of them the token numbers would be same but the meanings are different , and for each of the sentence 
+we would have different vector emebeddings by which i mean numerical representation of that word , image , or text , or sentence 
+
+
+the process would be 
+
+
+Dog ate cat > tokens [34 78 897] > vector emebeddings [0.8, 0.7, 0.3] [-0.1, 0.2, 0.4] [0.7, 0.6, 0.2] > positional encoding [ 0 1 2 ] > then again the vector embeddings 

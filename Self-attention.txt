@@ -1,0 +1,93 @@
+Now after all this theory 
+
+this was all from google : attention is what you need white paper 
+
+
+step 1 tokenization > step 2 vector embeddings > step 3 positional information > step 4 self-attention
+
+
+# Self-attention, in simple words
+
+Self-attention lets each word (or token) look at the other tokens in the same
+sentence and decide which ones are useful for understanding it. The result is a
+new, context-aware representation of each token.
+
+For example:
+
+"The animal was tired, so it rested."
+
+To understand "it", a model should pay more attention to "animal" than to "so".
+Self-attention gives each token an attention score for the other tokens. Higher
+scores mean "this token is more useful to me right now." The scores are turned
+into weights that add up to 1, then used to mix information from the tokens.
+
+## The simple idea behind Q, K, and V
+
+The model makes three learned versions of each token:
+
+- Query (Q): what information is this token looking for?
+- Key (K): what information does this token offer, so others can decide whether
+	to pay attention to it?
+- Value (V): what information should be passed along if this token is attended to?
+
+Think of searching in a library: the query is what you are looking for, keys are
+the labels on books, and values are the useful information inside the books. The
+model compares a token's query with other tokens' keys. A stronger match gives a
+higher attention weight. It then combines the other tokens' values using those
+weights.
+
+## A small example
+
+Sentence: "I deposited cash at the bank."
+
+When processing "bank", self-attention might give more weight to "deposited"
+and "cash" because they help identify the financial meaning of "bank". In
+"We sat by the river bank", it might instead give more weight to "river". The
+word is the same, but its surrounding words change the information it receives.
+
+These are illustrative examples: real attention weights are calculated by the
+model and are not fixed rules written by a person.
+
+## What happens, step by step
+
+1. Turn each token into its Q, K, and V vectors.
+2. Compare a token's Q with the other tokens' K vectors to get scores.
+3. Convert the scores into weights (using a function called softmax).
+4. Use the weights to combine the V vectors.
+5. The combined result is that token's context-aware representation.
+
+In GPT-style models, a causal mask also stops a token from looking at future
+tokens. When predicting the next token, the model can use the words before it,
+not words that have not been generated yet.
+
+
+# Multi-head attention, in simple words
+
+Multi-head attention runs several self-attention processes in parallel. Each one
+is called a head. Each head has its own learned Q, K, and V transformations, so
+the heads can learn to focus on different patterns in the same sentence.
+
+For example, in "The robot picked up the box because it was light", different
+heads might learn to focus on different useful relationships, such as:
+
+- which noun "it" refers to ("box"),
+- how "picked up" relates to "box",
+- which words describe the box ("light").
+
+These are possible patterns, not guaranteed jobs assigned to particular heads.
+The model learns what each head pays attention to during training.
+
+After the heads calculate their results, the model joins (concatenates) those
+results and transforms them into one output. You can picture several people
+reading the same sentence, each noticing different clues, then combining their
+notes into a fuller understanding.
+
+## Self-attention vs. multi-head attention
+
+- Self-attention: one attention process lets tokens gather useful context from
+	other tokens.
+- Multi-head attention: several attention processes do this in parallel, then
+	combine their results.
+
+In short: self-attention helps each token understand its context; multiple heads
+let the model consider several kinds of context at the same time.
