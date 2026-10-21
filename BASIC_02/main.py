@@ -28,7 +28,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
 
-env_file = Path(__file__).resolve().parent / ".env"
+env_file = Path(__file__).resolve().parent.parent / ".env"
 load_dotenv(env_file)
 
 api_key = os.getenv("GOOGLE_API_KEY")
@@ -46,7 +46,7 @@ client = OpenAI(
 
 print("Sending request to Gemini...", flush=True)
 stream = client.chat.completions.create(
-    model="gemini-3.7-flash",
+    model="gemini-3.8-flash",
     messages=[
         {"role": "system", "content":"You are an expert in the scienes only and only answer science related questions , and if someone asks anything other then kindly refuse them in hindi"},
         {"role":"user", "content":"Hey there , my name is shiv who are you, can you solve a maths problem"}
