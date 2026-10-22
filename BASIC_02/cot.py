@@ -8,6 +8,8 @@ from openai import OpenAI
 
 import json
 
+
+# it is used to go to the parent directory of the current file and then load the .env file from there. This is useful for loading environment variables, such as API keys, that are stored in a .env file located in the parent directory of the script.
 env_file = Path(__file__).resolve().parent.parent / ".env"
 load_dotenv(env_file)
 
@@ -51,12 +53,39 @@ SYSTEM_PROMPT = """
 
 """
 
+# This creates the message list sent to the model. The system message contains the instructions above. 
+# The list will also hold the user’s question and the model’s replies. basically this will contain the entire history 
+# of all queries and responses in the current session. This is important for maintaining context in a conversation with the model.
+
 message_history = [
     {"role":"system", "content": SYSTEM_PROMPT}
 ]
 
+#The script prompts you to type a question, then adds it to the conversation as a user message
+#The input() function displays a prompt and waits for the user to type something.
+# and that user query is appeneded to the message_history list as a dictionary with the role "user" and the content being the user’s input.
+
 user_query = input("Enter your query: ")
 message_history.append({"role":"user", "content": user_query})
+
+
+# Because True never becomes false, this loop continues indefinitely unless something stops it.
+
+# Your program uses while True because it doesn't know in advance how many planning steps the model will produce.
+
+# Maybe it returns two PLAN messages. Maybe it returns five. You want to continue until it produces OUTPUT.
+
+# That is why you use a loop whose stopping condition is determined by a response from the model.
+
+
+
+# This calls the API using the client's chat-completions interface.
+
+# Let's examine each argument.
+# Argument	                        Meaning
+# model	                 The model identifier requested from the API
+# response_format	        Requests JSON-object output
+# messages	          The conversation and instructions sent to the model
 
 while True:
     response = client.chat.completions.create(
@@ -65,9 +94,13 @@ while True:
         messages=message_history,
     )
 
-    raw_result = response.choices[0].message.content
-    message_history.append({"role":"assistant", "content": raw_result})
-    parsed_result = json.loads(raw_result)
+    raw_result = response.choices[0].message.content # Take the text generated in the first response choice and store it in raw_result.
+      #This adds the generated response to the conversation history.
+      # Why is the role "assistant"? Because the message came from the AI model.
+      # Why store raw_result instead of the parsed dictionary?
+      # Because the chat API expects message content as text. A JSON string is still a string, so it can be sent back as the assistant's message content.
+    message_history.append({"role":"assistant", "content": raw_result}) 
+    parsed_result = json.loads(raw_result) #raw_result is text returned by the model. json.loads() converts that JSON-formatted text into a Python object—here, a dictionary—so the script can access its fields.
 
     if parsed_result.get("step") == "START":
         print("Starting the process...", parsed_result.get("content"))
@@ -85,11 +118,16 @@ response = client.chat.completions.create(
     response_format={"type": "json_object"},
     messages=[
         {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": "Write a code to add n numers in js"},
+        {"role": "user", "content": "Hey there , my name is shiv who are you, can you solve a maths problem"},
     ]
 )
 
 content = response.choices[0].message.content
+# response is the result returned by the API request.
+# .choices is the list of replies the API returned.
+# [0] selects the first reply (Python lists start at index 0).
+# .message gets that reply’s message.
+# .content gets the text of the message.
 if content:
     print(content)
 else:
