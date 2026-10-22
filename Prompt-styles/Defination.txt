@@ -1,0 +1,4 @@
+In Generative AI (GenAI), prompt styles and prompt serialization styles are related, but they mean different things.
+- Prompt styles describe how you instruct an AI model to get the desired output.
+- Prompt serialization styles describe how messages, instructions, and metadata are structured and formatted before being passed to the model.
+Since you're learning GenAI development, especially the backend side, understanding both concepts is useful when working with LLM APIs, chat models, and open-source models.
