@@ -7,14 +7,16 @@ from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
 
-import json
-
 env_file = Path(__file__).resolve().parent.parent / ".env"
 load_dotenv(env_file)
 
+api_key = os.getenv("OPEN_ROUTER")
+if not api_key:
+    raise RuntimeError("OPEN_ROUTER is not set in the project .env file.")
+
 client = OpenAI(
-    api_key=os.getenv("GOOGLE_API_KEY"),
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    api_key=api_key,
+    base_url="https://openrouter.ai/api/v1",
     timeout=150.0,
     max_retries=0,
 )
@@ -213,7 +215,7 @@ the body respond more effectively if it encounters that germ later.
 """
 
 response = client.chat.completions.create(
-    model="gemini-3.7-flash",
+    model="google/gemini-2.5-flash",
     response_format={"type":"json_object"},
     messages=[
         {"role":"system", "content": SYSTEM_PROMPT},
