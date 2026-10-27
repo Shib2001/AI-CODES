@@ -6,11 +6,15 @@ import requests
 
 from dotenv import load_dotenv
 from openai import OpenAI
+from pydantic import BaseModel, Field
+from typing import Optional
 
 import json
 
 
-# it is used to go to the parent directory of the current file and then load the .env file from there. This is useful for loading environment variables, such as API keys, that are stored in a .env file located in the parent directory of the script.
+# it is used to go to the parent directory of the current file and then load the .env file from there. 
+# This is useful for loading environment variables, such as API keys, 
+# that are stored in a .env file located in the parent directory of the script.
 env_file = Path(__file__).resolve().parent.parent / ".env"
 load_dotenv(env_file)
 
@@ -25,6 +29,9 @@ client = OpenAI(
     max_retries=3,
 )
 
+def run_command(cmd:str):
+    result = os.system(cmd)
+    return result
 
 
 def get_weather(city):
@@ -37,7 +44,8 @@ def get_weather(city):
         return "Could not retrieve weather information."
 
 available_tools = {
-    "get_weather": get_weather
+    "get_weather": get_weather,
+    "run_command": run_command
 }
 
 
@@ -63,7 +71,7 @@ SYSTEM_PROMPT = """
 
         Available TOOLS:
         - get_weather(city:str): This tool retrieves the current weather information for a specified city. It returns a string describing the weather conditions, temperature, and wind speed.
-
+        - run_command(cmd: str): Takes a system linux command as a string and execute the command on user's system and return the ouput from that command
         Example:
         START: What is the weather in Noida ?
         PLAN: {"step": "PLAN", "content": "Seems like user is interested in getting the weather information for Noida in India."}
@@ -73,84 +81,72 @@ SYSTEM_PROMPT = """
         PLAN : {"step": "TOOL", "tool": "get_weather", "input":"Noida", "content": "Calling the get_weather tool with the city parameter set to 'Noida'."}
         PLAN: {"step": "OBSERVE","tool": "get_weather", "output":"The Temp of Noida is 30°C, with clear skies and a gentle breeze from the northwest at 10 km/h."}
         PLAN: {"step": "PLAN", "content": "Now that we have the weather information, we can provide the final output to the user."}
-        OUTPUT: {"step": "OUTPUT", "content": "The current weather in Noida is 30°C with clear skies and a gentle breeze from the northwest at 10 km/h."}
-
-
-
+        OUTPUT: {"step": "OUTPUT", "content": "The current weather in Noida is 30°C with clear skies and a gentle breeze from the northwest at 10 km/h."
 
 """
+
 
 # This creates the message list sent to the model. The system message contains the instructions above. 
 # The list will also hold the user’s question and the model’s replies. basically this will contain the entire history 
 # of all queries and responses in the current session. This is important for maintaining context in a conversation with the model.
 
+
+class MyoutputFormat(BaseModel):
+    step : str = Field(..., description="The step of the process: START, PLAN, TOOL, OBSERVE, OUTPUT")
+    content : Optional[str] = Field(None, description="The content of the message")
+    tool : Optional[str] = Field(None, description="The tool used")
+    input : Optional[str] = Field(None, description="The input to the tool")
+    output : Optional[str] = Field(None, description="The output from the tool")
+
 message_history = [
     {"role":"system", "content": SYSTEM_PROMPT}
 ]
 
-#The script prompts you to type a question, then adds it to the conversation as a user message
-#The input() function displays a prompt and waits for the user to type something.
-# and that user query is appeneded to the message_history list as a dictionary with the role "user" and the content being the user’s input.
-
-user_query = input("Enter your query: ")
-message_history.append({"role":"user", "content": user_query})
-
-
-# Because True never becomes false, this loop continues indefinitely unless something stops it.
-
-# Your program uses while True because it doesn't know in advance how many planning steps the model will produce.
-
-# Maybe it returns two PLAN messages. Maybe it returns five. You want to continue until it produces OUTPUT.
-
-# That is why you use a loop whose stopping condition is determined by a response from the model.
-
-
-
-# This calls the API using the client's chat-completions interface.
-
-# Let's examine each argument.
-# Argument	                        Meaning
-# model	                 The model identifier requested from the API
-# response_format	        Requests JSON-object output
-# messages	          The conversation and instructions sent to the model
-
 while True:
-    response = client.chat.completions.create(
-        model="recursive/flint-v1.0:free",
-        max_tokens=2048,
-        response_format={"type": "json_object"},
-        messages=message_history,
-        extra_body={"reasoning": {"enabled": True}},
-    )
-
-    raw_result = response.choices[0].message.content 
-    message_history.append({"role":"assistant", "content": raw_result}) 
-    parsed_result = json.loads(raw_result) #raw_result is text returned by the model. json.loads() converts that JSON-formatted text into a Python object—here, a dictionary—so the script can access its fields.
-
-    if parsed_result.get("step") == "START":
-        print("Starting the process...", parsed_result.get("content"))
-        continue
-    if parsed_result.get("step") == "TOOL":
-        tool_to_call = parsed_result.get("tool")
-        tool_input = parsed_result.get("input")
-        print(f"Calling tool: {tool_to_call} with input: {tool_input}")
-
-        tool_function = available_tools.get(tool_to_call)
-        if tool_function is None:
-            raise ValueError(f"Unknown tool requested by model: {tool_to_call}")
-        tool_response = tool_function(tool_input)
-        message_history.append({"role":"assistant", "content": json.dumps(
-            { "step": "OBSERVE", "tool": tool_to_call,"input": tool_input, "output": tool_response}
-        ) })
-        continue
-
-
-
-
-
-    if parsed_result.get("step") == "PLAN":
-        print("Planning step:", parsed_result.get("content"))
-        continue
-    if parsed_result.get("step") == "OUTPUT":
-        print("Final output:", parsed_result.get("content"))
+    user_query = input("Enter your query (or 'exit' to quit): ").strip()
+    if user_query.lower() in {"exit", "quit"}:
+        print("Goodbye!")
         break
+    if not user_query:
+        continue
+
+    message_history.append({"role": "user", "content": user_query})
+
+    while True:
+        response = client.chat.completions.parse(
+            model="recursive/flint-v1.0:free",
+            max_tokens=2048,
+            response_format=MyoutputFormat,
+            messages=message_history,
+            extra_body={"reasoning": {"enabled": True}},
+        )
+
+        raw_result = response.choices[0].message.content
+        message_history.append({"role": "assistant", "content": raw_result})
+
+        parsed_result = response.choices[0].message.parsed
+
+        if parsed_result.step == "START":
+            print("Starting the process...", parsed_result.content)
+            continue
+
+        if parsed_result.step == "TOOL":
+            tool_to_call = parsed_result.tool
+            tool_input = parsed_result.input
+            print(f"Calling tool: {tool_to_call} with input: {tool_input}")
+            tool_function = available_tools.get(tool_to_call)
+            if tool_function is None:
+                raise ValueError(f"Unknown tool requested by model: {tool_to_call}")
+            tool_response = tool_function(tool_input)
+            message_history.append({"role": "assistant", "content": json.dumps(
+                {"step": "OBSERVE", "tool": tool_to_call, "input": tool_input, "output": tool_response}
+            )})
+            continue
+
+        if parsed_result.step == "PLAN":
+            print("Planning step:", parsed_result.content)
+            continue
+
+        if parsed_result.step == "OUTPUT":
+            print("Final output:", parsed_result.content)
+            break
