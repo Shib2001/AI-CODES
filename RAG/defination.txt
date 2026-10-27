@@ -1,0 +1,48 @@
+just tell me that in short
+RAG (Retrieval-Augmented Generation) is a technique in Generative AI that allows an LLM to retrieve relevant information from external data sources before generating an answer.
+
+Why do we need RAG?
+
+Reduces hallucinations: Helps the LLM answer using relevant, retrieved information.
+
+Access to private data: Allows the LLM to answer questions using your PDFs, documents, databases, etc.
+
+Up-to-date information: Provides information that may not be present in the model's training data.
+
+No retraining required: You can update the external knowledge base without retraining the LLM.
+
+Example: Suppose you build a chatbot for your company. Using RAG, it can retrieve information from company documents and answer employees' questions accurately.
+
+In simple terms: RAG = Retrieve relevant information + Give it to the LLM + Generate an answer.
+
+
+
+# RAG HAS two phases 
+
+Indexing phase , Retrieval phase
+
+1. Indexing phase : indexing phase means taking data from user ( external source ) and break down it into small chunks
+Now we can do the chunk on a page level , paragraph level and even on a word level
+Now for every chunks we want to see what kind of data it holds.
+So for every chunk we will pass it through a embedding model ( for example chatgpt ) it will create the vector embeddings for each of those chunks.
+and to store those vector embedding we need the vector databases 
+and in those vector db's there will be the chunks and their vectors
+
+
+
+2.Retrieval phase
+
+
+
+Find relevant information for the user's question
+
+
+User will ask query > that query will be converted to vector embedding > then suppose your query was give me file number 132 and it converted into 
+
+a vector embedding , also in vector db we have a vector embedding already which has data already related to file number 132 , then a similarity search query will run in vector db 
+
+> on the basis of that similarity search i will only get let's suppose two relevant chunks Chunk A and Chunk B > and then only that relevant data will be passed on to the llm  > And the llm will 
+
+give back that response to the user.
+
+
