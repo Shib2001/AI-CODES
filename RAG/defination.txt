@@ -46,3 +46,68 @@ a vector embedding , also in vector db we have a vector embedding already which 
 give back that response to the user.
 
 
+
+
+
+# VECTOR DB 
+
+
+A Vector Database (Vector DB) is a database designed to store and manage numerical vectors called embeddings.
+
+These vectors are generated from text, images, audio, or other data using embedding models.
+
+Each vector represents the semantic meaning or features of the original data.
+
+Unlike traditional databases, vector databases focus on similarity-based searches.
+
+They find data that is most similar in meaning to a given query.
+
+They use similarity metrics such as cosine similarity, dot product, or Euclidean distance.
+
+Vector databases can store vectors along with their original text and metadata.
+
+They support efficient searches across large collections of high-dimensional vectors.
+
+Popular vector databases include Pinecone, Chroma, Weaviate, and Milvus.
+
+They are widely used in AI applications, especially Retrieval-Augmented Generation (RAG).
+
+In RAG, a vector DB retrieves relevant information that is passed to an LLM to generate an answer.
+
+
+
+
+# LANGCHAIN : 
+
+Main components of LangChain
+
+1. Models (LLMs)
+
+Connect your application to models from providers such as OpenAI, Google, and Anthropic. The model generates responses based on the input it receives.
+
+
+2. Prompt Templates
+
+Create reusable prompts with placeholders instead of writing a new prompt from scratch every time.
+
+Example: Explain {topic} in simple words.
+
+
+3. Document Loaders and Text Splitters
+
+Load information from PDFs, text files, and other sources, then divide large documents into smaller chunks for processing.
+
+
+4. Retrievers and Vector Stores
+
+Search for relevant document chunks using a query. Vector stores can hold embeddings and support semantic similarity searches.
+
+
+5. Chains and Workflows
+
+Connect multiple processing steps, such as retrieving documents, creating a prompt, calling a model, and formatting the response.
+
+
+6. Tools and Agents
+
+Tools let an AI application perform actions, such as calling an API or querying a database. An agent uses the model to decide which tools to use and when.
