@@ -1,0 +1,31 @@
+# LangGraph : let's suppose we have implemented a if else or while flow for our chatbot while calling a api 
+that chatbot code would have then so many edge-cases and conditions to mainatin and handle , and it get's very difficult to understand 
+for that to make easy we use LangGraph
+
+**LangGraph ek low-level orchestration framework hai** jisse aap LLM-based
+applications, agents, aur multi-step workflows ko graph ke roop mein define
+aur run karte ho.
+
+
+
+1. Nodes : let's suppose humne 4 functions likhe h , first to call the llm , second to call a tool and so others
+these functions are called nodes 
+
+
+2.Edges : then we have to connects these nodes using the edges 
+
+3. State : Object data 
+
+Example :
+
+```text
+{
+  "question": "Order kahan hai?",
+  "order_id": "A123",
+  "tracking_result": null,
+  "answer": null
+}
+```
+
+4.and hum in states ko graph me run krte h aur har node ke pass through hone ke baaad uss state pr khuch functionality run 
+hoti h and uss state ka data har baar change hota rehta h 
