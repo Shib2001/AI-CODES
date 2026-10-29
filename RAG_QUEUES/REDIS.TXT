@@ -1,0 +1,55 @@
+Think of Redis as a super-fast temporary storage for your application.
+1. What is Redis?
+Redis is an in-memory data store that keeps data primarily in RAM instead of reading it from a hard disk.
+
+Because RAM is much faster, Redis can retrieve data very quickly.
+2. Why do we use Redis?
+Imagine you are building a website.
+
+Step 1: User requests data
+
+A user opens your website and requests a product.
+
+
+
+
+Step 2: Database is queried
+
+Your application fetches the product from PostgreSQL. This takes some time.
+
+
+
+
+Step 3: Store it in Redis
+
+Redis keeps a copy of the product data in memory.
+
+
+
+
+Step 4: Next request
+
+Redis returns the cached product quickly, often without querying PostgreSQL again.
+
+
+
+This technique is called caching.
+3. What is Redis used for?
+- Caching: Store frequently requested data for faster responses.
+- Session storage: Temporarily store user login session information.
+- Rate limiting: Limit how many API requests a user can make.
+- Queues: Help manage background tasks, such as sending emails.
+- Real-time features: Support things like live leaderboards and counters.
+4. Redis vs PostgreSQL
+Feature	Redis	PostgreSQL
+Main storage	RAM (primarily)	Disk, with RAM caching
+Speed	Extremely fast for supported operations	Generally slower than Redis for simple cache lookups
+Typical purpose	Cache and fast temporary data	Persistent application data
+Data persistence	Optional/configurable	Designed for durable storage
+
+5. One-line example
+Suppose you are building a FastAPI application:
+- PostgreSQL stores all the products.
+- Redis temporarily stores popular products so your API can retrieve them faster.
+- FastAPI connects the two and sends the response to the user.
+Remember: Redis doesn't usually replace your main database. It works alongside it to make your application faster and handle certain tasks more efficiently.
