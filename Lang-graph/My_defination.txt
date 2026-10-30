@@ -29,3 +29,8 @@ Example :
 
 4.and hum in states ko graph me run krte h aur har node ke pass through hone ke baaad uss state pr khuch functionality run 
 hoti h and uss state ka data har baar change hota rehta h 
+
+4 . checkpoints : Also there are checkpoints , yeh use hota hai for our system to learn the context of the query 
+suppose you ask some query " Hey my name is shiv " and close the terminal and if you ask " HEY what is your name " , it wouldn't know 
+and that's where our checkpoints comes into help
+
