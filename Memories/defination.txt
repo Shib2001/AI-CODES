@@ -1,0 +1,555 @@
+MEMORIES: A SIMPLE EXPLANATION
+==============================
+
+This note explains memory in humans and in AI systems.
+The main goal is simple:
+
+    Memory lets a system use information from the past when it is useful now.
+
+Without memory, an AI would treat every message as a completely new conversation.
+It would not remember what the user said earlier, what has already been done, or
+what preferences the user has.
+
+
+1. WHAT PROBLEM DOES MEMORY SOLVE?
+-----------------------------------
+
+An AI conversation can have many messages. If the AI only sees the newest
+message, it has problems:
+
+* It forgets earlier questions and answers.
+* The user has to repeat their name, preferences, and instructions.
+* The AI may repeat work that was already completed.
+* It cannot remember useful facts about a project.
+* Long conversations may become too large to send to the model.
+* Information from one conversation may not be available in a later one.
+
+Memory solves these problems by saving important information and bringing it
+back when it is relevant.
+
+Important: Memory is not the same as saving everything. Good memory saves
+useful information, finds the right information, and avoids irrelevant or
+incorrect information.
+
+
+2. SHORT-TERM MEMORY (STM)
+--------------------------
+
+Short-term memory means information needed for a short time.
+
+In an AI application, STM usually means the current conversation or the recent
+messages in a conversation.
+
+Example:
+
+    User: My name is Sara.
+    User: What is my name?
+    AI: Your name is Sara.
+
+The AI can answer because "My name is Sara" is still in the current context.
+
+What problem does STM solve?
+
+* It helps the AI understand the current discussion.
+* It remembers the previous question and answer.
+* It allows the user to give information once and use it in the next few
+  messages.
+
+How does STM work?
+
+1. The application collects recent messages.
+2. It puts those messages into the model's context window.
+3. The model uses that context to create its next answer.
+
+STM is usually fast, but it has a limit. When the conversation becomes too
+long, old messages may be removed, shortened, or summarized.
+
+
+3. WORKING MEMORY
+-----------------
+
+Working memory is the information the AI is actively using to complete a task.
+It is similar to a temporary workspace.
+
+Example:
+
+    Task: Add 25, 30, and 45.
+    Working information: 25 + 30 = 55, then 55 + 45 = 100.
+
+For an AI agent, working memory can contain:
+
+* The current plan.
+* The current step.
+* Tool results.
+* Temporary variables.
+* Errors that need to be fixed.
+* Information needed for the next action.
+
+What problem does working memory solve?
+
+It helps the AI complete a multi-step task instead of answering every step
+independently.
+
+STM and working memory are related, but they are not exactly the same:
+
+* STM is recent information available for a short time.
+* Working memory is the information actively being used for the current task.
+
+
+4. LONG-TERM MEMORY (LTM)
+-------------------------
+
+Long-term memory stores information for a long time. It can be used in future
+messages, future tasks, or future conversations.
+
+Example:
+
+    The user prefers simple English.
+    The user works on a project called AI-CODES.
+
+If these facts are saved as long-term memories, the AI can use them later
+without asking the user again.
+
+What problem does LTM solve?
+
+* It prevents useful information from being lost when a conversation ends.
+* It provides continuity between different conversations.
+* It allows personalization.
+* It stores stable facts, decisions, and important history.
+
+LTM is commonly stored in a database. It may be stored as normal text, JSON,
+rows in a database, or vector embeddings.
+
+
+5. TYPES OF LONG-TERM MEMORY
+----------------------------
+
+5.1 Semantic memory
+
+Semantic memory stores facts and general knowledge.
+
+Examples:
+
+* The user prefers Python.
+* Paris is the capital of France.
+* The project uses FastAPI.
+* The database is MongoDB.
+
+Semantic memory answers:
+
+    "What is true?"
+
+
+5.2 Episodic memory
+
+Episodic memory stores events or experiences.
+
+Examples:
+
+* Yesterday, the user asked how to install dependencies.
+* The AI fixed an import error in a particular file.
+* The user decided to use a Python 3.14 environment.
+
+Episodic memory answers:
+
+    "What happened?"
+
+An episode should usually include useful details such as what happened, when
+it happened, and the result.
+
+
+5.3 Procedural memory
+
+Procedural memory stores instructions, skills, or ways of doing things.
+
+Examples:
+
+* Always explain technical topics in easy English.
+* Run tests after changing code.
+* Use a specific format when creating a report.
+
+Procedural memory answers:
+
+    "How should this be done?"
+
+
+5.4 User or profile memory
+
+This is a practical category used in AI applications. It stores stable facts
+about a user.
+
+Examples:
+
+* The user's name.
+* The user's preferred language.
+* The user's preferred level of detail.
+* The user's time zone.
+
+Only save information that is useful and appropriate. Sensitive information
+should be handled carefully and should not be saved without a good reason.
+
+
+5.5 Project or entity memory
+
+This stores information about an important object, such as a project, company,
+person, product, or codebase.
+
+Examples:
+
+* The AI-CODES project uses a .venv314 environment.
+* A product has a monthly price of $20.
+* A project has a known API endpoint.
+
+This memory keeps information organized around an entity instead of around
+one conversation.
+
+
+6. SENSORY MEMORY
+-----------------
+
+In human psychology, sensory memory briefly holds information received through
+the senses, such as sight or sound.
+
+In AI systems, the closest examples are:
+
+* Raw audio received from a microphone.
+* An image uploaded by a user.
+* A temporary stream of sensor data.
+
+This information usually exists only long enough to be processed. It is not
+normally saved as permanent memory.
+
+
+7. CONTEXT WINDOW
+-----------------
+
+The context window is the amount of information an AI model can read while
+producing one answer.
+
+It is similar to the model's desk:
+
+* Information on the desk can be used immediately.
+* Information outside the desk cannot be used unless it is brought back.
+
+The context window is not the same as long-term memory.
+
+Example:
+
+* A database may contain 10,000 saved memories.
+* Only 10 relevant memories may be retrieved and placed in the context
+  window for the current answer.
+
+This is why a memory system needs retrieval. Saving information alone is not
+enough.
+
+
+8. HOW AI MEMORY USUALLY WORKS
+------------------------------
+
+An AI memory system normally has these steps:
+
+STEP 1: Receive information
+
+The AI reads a message, tool result, document, or event.
+
+STEP 2: Decide what is important
+
+The system checks whether the information is worth saving.
+
+Good candidates include:
+
+* Stable user preferences.
+* Important project facts.
+* Decisions.
+* Successful or failed actions.
+* Instructions that should be followed later.
+
+Not every sentence should become a memory.
+
+STEP 3: Store the memory
+
+The memory is saved in a storage system, such as:
+
+* A SQL or NoSQL database.
+* A JSON file.
+* A key-value store.
+* A vector database.
+
+The system may also save metadata such as the creation time, source, user,
+project, and confidence.
+
+STEP 4: Retrieve relevant memories
+
+When a new question arrives, the system searches for memories related to the
+question.
+
+It may search by:
+
+* Exact words.
+* Meaning or similarity.
+* User, project, date, or category.
+* A combination of these methods.
+
+STEP 5: Add memories to the context
+
+The most useful memories are added to the prompt sent to the AI model.
+
+STEP 6: Use and update the memories
+
+The AI uses the memories to answer. After the answer, the system may create a
+new memory, update an old one, or mark an old memory as no longer correct.
+
+
+9. VECTOR MEMORY AND EMBEDDINGS
+-------------------------------
+
+Computers can search exact words easily, but users may express the same idea
+using different words.
+
+Example:
+
+* Saved memory: "The user likes brief explanations."
+* New request: "Keep your answer short and simple."
+
+These sentences do not use exactly the same words, but they have a similar
+meaning.
+
+An embedding converts text into a list of numbers that represents its meaning.
+This list of numbers is called a vector.
+
+The system can compare vectors and find memories with similar meanings.
+
+What problem does vector search solve?
+
+It finds related information even when the exact words are different.
+
+Vector memory is useful for:
+
+* Finding relevant documents.
+* Searching old conversation facts.
+* Retrieval-augmented generation (RAG).
+* Finding similar past events.
+
+Vector search should not be the only check. The result should also be checked
+for user, project, permissions, time, and accuracy.
+
+
+10. RAG (RETRIEVAL-AUGMENTED GENERATION)
+-----------------------------------------
+
+RAG is a method where the AI searches external information before answering.
+
+The basic flow is:
+
+    Question -> Search -> Retrieve useful information -> Give it to the AI
+    -> Generate an answer
+
+RAG solves the problem that the model may not know private, new, or project
+specific information.
+
+Example:
+
+* A company stores its documentation in a database.
+* A user asks a question about that documentation.
+* The system retrieves the relevant pages.
+* The AI answers using those pages.
+
+RAG and memory are closely related:
+
+* Memory usually stores information about users, conversations, events, or
+  learned preferences.
+* RAG usually retrieves information from documents or a knowledge base.
+
+Both use storage and retrieval, and one system can use both.
+
+
+11. SUMMARIZATION AND COMPRESSION
+----------------------------------
+
+Long conversations may be too large to keep in full. A memory system can
+create a summary.
+
+Example:
+
+    The user is building a FastAPI application. They use MongoDB and want
+    explanations in easy English. Dependency installation was completed.
+
+A summary uses less space than the original conversation.
+
+What problem does summarization solve?
+
+* It reduces the size of the context.
+* It keeps the important meaning of old messages.
+* It allows longer conversations.
+
+The risk is that a summary may lose details or accidentally include an
+incorrect conclusion. Important facts should be verified before being saved.
+
+
+12. MEMORY MANAGEMENT
+---------------------
+
+A reliable memory system needs more than a save button. It needs management.
+
+Creation:
+
+    Decide when a new memory should be created.
+
+Retrieval:
+
+    Find memories that are relevant to the current task.
+
+Updating:
+
+    Change a memory when the information changes.
+
+Deduplication:
+
+    Avoid saving the same fact many times.
+
+Expiration:
+
+    Remove temporary information after it is no longer useful.
+
+Forgetting:
+
+    Delete information that is old, incorrect, unwanted, or unsafe to keep.
+
+Conflict resolution:
+
+    Handle two memories that disagree. Newer or more reliable information
+    may replace older information, but the system should not guess silently.
+
+User control:
+
+    Let the user view, correct, or delete saved memories where appropriate.
+
+
+13. MEMORY, KNOWLEDGE, AND CONTEXT ARE DIFFERENT
+-------------------------------------------------
+
+Context:
+
+    Information currently given to the model for one answer.
+
+Memory:
+
+    Information saved so it can be used later.
+
+Knowledge:
+
+    General or domain information that helps the system answer questions.
+
+Example:
+
+* The current message is context.
+* "The user prefers Python" is memory.
+* "Python is a programming language" is knowledge.
+
+These words are sometimes used interchangeably, but separating them makes a
+system easier to design and debug.
+
+
+14. A SMALL PRACTICAL EXAMPLE
+-----------------------------
+
+Conversation 1:
+
+    User: My name is Ravi. I am building a FastAPI project.
+    User: Please explain things in easy English.
+
+The memory system may save:
+
+* User name: Ravi.
+* Project technology: FastAPI.
+* Preference: easy English.
+
+Conversation 2:
+
+    User: Help me install the project dependencies.
+
+The system retrieves the relevant memories:
+
+* Ravi is the user.
+* The project uses FastAPI.
+* The answer should use easy English.
+
+The AI can now give a personalized answer without asking for these details
+again.
+
+
+15. COMMON PROBLEMS WITH MEMORY
+--------------------------------
+
+Incorrect memory:
+
+    The system saves a guess as if it were a fact.
+
+Irrelevant memory:
+
+    The system retrieves information that does not help with the current task.
+
+Stale memory:
+
+    The information was once correct but is now old.
+
+Too much memory:
+
+    The system saves every message and becomes slow, expensive, and confused.
+
+Memory conflict:
+
+    Two saved facts disagree.
+
+Privacy problem:
+
+    The system stores information that it should not store.
+
+Prompt injection:
+
+    A document or message tries to control the AI in an unsafe way. Retrieved
+    text should be treated as data, not automatically as a trusted instruction.
+
+Poor isolation:
+
+    One user's memory is accidentally shown to another user. Memories must
+    always be separated by user, tenant, project, and permission where needed.
+
+
+16. SIMPLE SUMMARY
+-------------------
+
+STM:
+    Recent conversation information. It helps with the current discussion.
+
+Working memory:
+    Temporary information used while completing a task.
+
+LTM:
+    Information saved for future conversations and tasks.
+
+Semantic memory:
+    Facts: "What is true?"
+
+Episodic memory:
+    Events: "What happened?"
+
+Procedural memory:
+    Instructions and skills: "How should it be done?"
+
+Vector memory:
+    Meaning-based storage and search using embeddings.
+
+RAG:
+    Search external documents or data and give the useful results to the AI.
+
+Summarization:
+    Compress a long conversation into a shorter useful description.
+
+The complete memory cycle is:
+
+    Observe -> Decide what matters -> Store -> Retrieve -> Use -> Update
+
+The best memory system does not remember everything. It remembers the right
+things, retrieves the right things, protects private information, and allows
+incorrect or unwanted memories to be changed or deleted.

@@ -1,0 +1,32 @@
+# Memory : bohot types ki hoti h , used to store the context of a user , 
+like to actually maintain the llm should remember things about user what he asked , what's his name , what he tells to store yesterday ,what is he working 
+for that we use memory 
+
+
+1 . STM : SHORT TERM Memory
+
+ongoing conversation me jitni bhi baatein hoti h  bss usse remember krta h 
+as soon as the convo ends it forgets 
+
+2 . LTM : LONG TERN MEMORY
+
+stores the things about user in a datbase, and only fetch and retrieve it to the context window as per the condition or events 
+because context window is limited even though we can store so many data in a database 
+
+so for that we types of LTM
+
+FACTUAL , SEMANTIC , Episodic
+
+ - FACTUAL memory : knows facts about user like name age what he likes what he not 
+ and it is something that should always be there in context window 
+ because these are the things that are essential and to look into that on max to max the data points
+ for the factual can go upto 10 or 12 which are very less , so it's not to hard to be always there in the context window 
+
+  - Episodic : so let's suppose you had a very long convo with a llm , and that data is stored in a vector or qdrant or mongo database 
+  and Now let's suppose tommorow you ask the llm " Hey you remember about the school event that heppened " , 
+  then our rag would go into the db and retrieve the data from the convo " YES I REMEMBER " 
+  so that is something which should be retriev to the context based on the condition or what user wants 
+  it shouldn't be always there 
+
+
+  - SEMANTIC : DOC se pdh liyo 
