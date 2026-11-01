@@ -38,6 +38,14 @@ config = {
             "model": "openai/gpt-4o",
         },
     },
+    "graph_store": {
+        "provider": "neo4j",
+        "config": {
+            "uri": os.getenv("NEO_CONNECTION"),
+            "username": os.getenv("NEO_USERNAME"),
+            "password": os.getenv("NEO_PASSWORD"),
+        }   
+    },
     "vector_store": {
         "provider": "qdrant",
         "config": {
@@ -60,7 +68,7 @@ while True:
     )
 
     memories = [
-        f"ID: {mem.get('id')}\nMemory: {mem.get("memory")}" 
+        f"ID: {mem.get('id')}\nMemory: {mem.get('memory')}"
         for mem in search_memory.get("results", [])
     ]
     print("Retrieved Memories:", json.dumps(memories, indent=2))

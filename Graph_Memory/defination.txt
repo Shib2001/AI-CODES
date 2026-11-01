@@ -28,3 +28,18 @@ would be A
 and if A asks hey whom can i go to as a senior authority , then the ai would go through graph db and would say the appropriate response would be 
 the owner "O"
 
+
+# What is a Cypher query ??
+
+Cypher is a query language used to read and modify data in graph databases such as Neo4j. 
+It represents nodes using parentheses and relationships using arrows, which makes graph queries easy to understand.
+
+For example, the following query finds all employees who work for Company X:
+
+```cypher
+MATCH (employee:Person)-[:WORKS_FOR]->(company:Company {name: "Company X"})
+RETURN employee.name
+```
+
+Here, `employee` is a `Person` node connected to a `Company` node through the `WORKS_FOR` relationship. 
+The query returns the names of all employees connected to Company X.
