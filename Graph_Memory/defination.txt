@@ -1,0 +1,30 @@
+# GRAPHS : 
+
+
+So as we know a graph is what when nodes are connected to each other using edges 
+
+that whole system is known as graph 
+
+there are two types of graphs 
+
+1. Directed graphs : In which For example Node A is connected to Node B , but the relationship is just one way B isn't connected to Node A that 
+is Directed Graph. 
+
+2. Undirected Graphs : In which For example Node A is connected to Node B , and the relationship is two way B is also connected to Node A that is Undirected Graph.
+______________________________________________________________________________________________________________________________________________________________________________________
+
+# Why graph memory is needed ??
+
+
+Now these relations which i talked about can't be stored in vector db that's where we need graph db for help 
+
+suppose we have a company X , which has employees A and B as "employees" both have a undirected graph relationship 
+
+Now that Company X is owned by Owner "O" and Owner "O" has as direct graph relationship to both of the employees 
+
+so suppose B asks the AI hey who can i talk to as a employee , AI will look for that through graph db and would tell most suitable 
+would be A 
+
+and if A asks hey whom can i go to as a senior authority , then the ai would go through graph db and would say the appropriate response would be 
+the owner "O"
+
