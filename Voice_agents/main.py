@@ -1,22 +1,33 @@
+import asyncio
 import speech_recognition as sr  # Speech recognition ke liye library import karta hai.
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from openai import OpenAI
+from openai import AsyncOpenAI, OpenAI
+from openai.helpers import LocalAudioPlayer
 
 
 env_file = Path(__file__).resolve().parent.parent / ".env"
 load_dotenv(env_file)
 
-api_key = os.getenv("OPEN_ROUTER")
+api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
-    raise RuntimeError("OPEN_ROUTER is not set in the project .env file.")
+    raise RuntimeError("OPENAI_API_KEY is not set in the project .env file.")
 
 
-client = OpenAI(
-    api_key=api_key,
-    base_url="https://openrouter.ai/api/v1",
-)
+client = OpenAI(api_key=api_key)
+async_client = AsyncOpenAI(api_key=api_key)
+
+
+async def speak_response(speech: str):
+    async with async_client.audio.speech.with_streaming_response.create(
+        model="gpt-4o-mini-tts",
+        voice="coral",
+        input=speech,
+        instructions="Speak in a clear and friendly tone.",
+        response_format="pcm",
+    ) as response:
+        await LocalAudioPlayer().play(response)
 
 
 def main():
@@ -40,7 +51,7 @@ def main():
     """
 
         response = client.chat.completions.create(
-            model="openai/gpt-4o-mini",
+            model="gpt-4o-mini",
             messages=[
                 {"role":"system", "content":SYSTEM_PROMPT},
                 {"role":"user", "content": stt},
@@ -48,7 +59,12 @@ def main():
             max_tokens=1024,
         )
 
-        print("AI Response", response.choices[0].message.content)
+        response_text = response.choices[0].message.content
+        if not response_text:
+            raise RuntimeError("OpenAI returned an empty response.")
+
+        print("AI Response:", response_text)
+        asyncio.run(speak_response(response_text))
 
 
 if __name__ == "__main__":  # File ko direct run karne par hi main function chalata hai.
