@@ -1,0 +1,6 @@
+Topics remaining to be covered 
+
+1. Guardrails 
+2. observability and tracking
+3. MCP server 
+4. 
