@@ -45,7 +45,7 @@ db_uri = os.getenv(  # Environment se MongoDB URI leta hai; value na mile to loc
 config = {"configurable": {"thread_id": "Shiv"}}  # Checkpoint ko is conversation thread ke saath associate karta hai.
 
 with MongoDBSaver.from_conn_string(db_uri, db_name="lg") as checkpointer:  # MongoDB checkpoint saver kholta hai; db_name checkpoint database hai.
-    graph_with_checkpointer = graph_builder.compile(checkpointer=checkpointer)  # Isi saver ke saath checkpoint-enabled graph compile karta hai.
+    graph_with_checkpointer = graph_builder.compile(checkpointer=checkpointer)  # Isi saver ke saath checkpoint-enabled graph compile karta hai. , aur yaha maine mongo db ke checkpoint ko humne jo checkpoint bnaya the usme save kr diya 
     for chunk in graph_with_checkpointer.stream(  # Saver khula rakhte hue stream ke har state snapshot par loop chalata hai.
         {"messages": ["Hello, what do i love to play and what is my name what is my favourite food ?"]},  # Graph ko shuruaati user message deta hai.
         config=config,  # Stream call ko thread ID deta hai, jisse checkpoints sahi conversation mein save hote hain.

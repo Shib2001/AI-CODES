@@ -5,10 +5,17 @@ from typing_extensions import TypedDict
 from typing import Optional , Literal
 from langgraph.graph import StateGraph,START, END
 from openai import OpenAI
+import os
+from pathlib import Path
 
-load_dotenv()
+env_file = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(env_file)
 
-client = OpenAI()
+api_key = os.getenv("OPEN_ROUTER")
+if not api_key:
+    raise RuntimeError("OPEN_ROUTER is not set in the project .env file.")
+
+client = OpenAI(api_key=api_key, base_url="https://openrouter.ai/api/v1")
 
 class State(TypedDict):
     user_query: str
@@ -18,10 +25,11 @@ class State(TypedDict):
 
 def chatbot(state:State):
     response = client.chat.completions.create(
-        model="gpt-4.1-mini",
+        model="openai/gpt-4.1-mini",
         messages=[
             {"role":"user", "content": state.get("user_query")}
-        ]
+        ],
+        max_tokens=1024,
     )
 
     state["llm_output"] = response.choices[0].message.content # here in the llm output we have appeneded the output we would got from the 
@@ -43,10 +51,11 @@ def evaluate_response(state: State) -> Literal["chatbot_gemini", "endnode"]:
 
 def chatbot_gemini(state:State):
     response = client.chat.completions.create(
-        model="gpt-4.1-mini",
+        model="openai/gpt-4.1-mini",
         messages=[
             {"role":"user", "content": state.get("user_query")}
-        ]
+        ],
+        max_tokens=1024,
     )
 
 
@@ -56,7 +65,7 @@ graph_builder = StateGraph(State)
 # let's register nodes
 
 graph_builder.add_node("chatbot", chatbot)
-graph_builder.add_node("chabot_gemini", chatbot_gemini)
+graph_builder.add_node("chatbot_gemini", chatbot_gemini)
 graph_builder.add_node("endnode", endnode)
 
 
@@ -73,5 +82,5 @@ graph_builder.add_edge("endnode", END)
 
 graph = graph_builder.compile()
 
-updated_state = graph.invoke(State({"user_query":"Hey what is 2+2?"}))
+updated_state = graph.invoke(State({"user_query":"Who is the ceo of meta ? currently ?"}))
 print(updated_state)

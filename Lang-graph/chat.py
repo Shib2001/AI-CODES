@@ -57,5 +57,5 @@ graph = graph_builder.compile()
 
 # Now let's test it , below we are invoking a graph and in the initiliased state we have added a message , and saved it into the updated state
 
-updated_state = graph.invoke(State({"messages":["Hi, My name is shiv kumar jha"]}))
+updated_state = graph.invoke(State({"messages":["Can you add 2+2"]}))
 print("updated_state", updated_state)
