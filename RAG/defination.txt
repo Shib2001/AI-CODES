@@ -1,4 +1,4 @@
-just tell me that in short
+just tell me that in short :
 RAG (Retrieval-Augmented Generation) is a technique in Generative AI that allows an LLM to retrieve relevant information from external data sources before generating an answer.
 
 Why do we need RAG?
@@ -79,7 +79,16 @@ In RAG, a vector DB retrieves relevant information that is passed to an LLM to g
 
 # LANGCHAIN : 
 
-Main components of LangChain
+LangChain is an open-source framework used to develop applications powered by Large Language Models (LLMs). 
+It provides tools and components to connect LLMs with external data sources, APIs, databases, and other tools, 
+making it easier to build applications such as chatbots, RAG systems, and AI agents.
+
+
+In simple words (interview explanation):
+"LangChain helps us integrate LLMs with external tools and data 
+so that we can build more powerful AI applications rather than just sending prompts to an LLM and receiving responses."
+
+Main components of LangChain:
 
 1. Models (LLMs)
 

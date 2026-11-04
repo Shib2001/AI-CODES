@@ -27,11 +27,11 @@ Hey there > "TRANSFORMER" > I
 
 then the loop will run again 
 
-Hey there I > "TRANSFORMER" > am
+Hey there I > "TRANSFORMER" > am  
 
 then the loop will run again 
 
-Hey there I am > "TRANSFORMER" > good
+Hey there I am > "TRANSFORMER" > good  
 
 then again 
 

@@ -46,10 +46,10 @@ config = {"configurable": {"thread_id": "Shiv"}}  # Checkpoint ko is conversatio
 
 with MongoDBSaver.from_conn_string(db_uri, db_name="lg") as checkpointer:  # MongoDB checkpoint saver kholta hai; db_name checkpoint database hai.
     graph_with_checkpointer = graph_builder.compile(checkpointer=checkpointer)  # Isi saver ke saath checkpoint-enabled graph compile karta hai. , aur yaha maine mongo db ke checkpoint ko humne jo checkpoint bnaya the usme save kr diya 
-    for chunk in graph_with_checkpointer.stream(  # Saver khula rakhte hue stream ke har state snapshot par loop chalata hai.
+    for chunk in graph_with_checkpointer.stream(  #Because .stream() produces multiple state updates, the for loop receives them one by one.chunk is simply a variable holding the current state snapshot.
         {"messages": ["Hello, what do i love to play and what is my name what is my favourite food ?"]},  # Graph ko shuruaati user message deta hai.
         config=config,  # Stream call ko thread ID deta hai, jisse checkpoints sahi conversation mein save hote hain.
-        stream_mode="values",  # Har event par poora updated graph state stream karta hai.
+        stream_mode="values",  #This tells LangGraph to return the complete updated state at each step rather than only the changes.
     ):  # Stream loop ka body yahan se shuru hota hai.
         chunk["messages"][-1].pretty_print()  # Snapshot ka aakhri message, yani naya response, print karta hai.
 
